@@ -18,7 +18,7 @@ tags:
 
 mybatis的cache部分是做db操作的缓存特性。分为一级缓存和二级缓存，虽然工程里面一般用redis做db的分布式缓存，但是mybatis也有提供这种单机的缓存特性。下面通过分析一级和二级缓存特性和源码。最后总结mybatis缓存源码对工程代码的思考。
 
-##一级缓存
+## 一级缓存
 一级缓存是在同个数据库会话里面同事查询相同的sql，mybatis可以对第一次的db查询做缓存，保证第二次相同的查询不会穿透db。
 首先看一级缓存的工作模式
 
@@ -39,8 +39,8 @@ mybatis的cache部分是做db操作的缓存特性。分为一级缓存和二级
       //本地输出参数缓存
       protected PerpetualCache localOutputParameterCache;
       protected Configuration configuration;
-在Executor里面保存着一个localCache变量。这个变量集成几口Cache，提供基本的put和get操作。背后的存储是用hashMap。
-而缓存的key是一个cacheKey的类，看看他的update方法和equals方法
+      //在Executor里面保存着一个localCache变量。这个变量集成几口Cache，提供基本的put和get操作。背后的存储是用hashMap。
+      //而缓存的key是一个cacheKey的类，看看他的update方法和equals方法
     
     public class CacheKey implements Cloneable, Serializable {
     
@@ -116,12 +116,14 @@ mybatis的cache部分是做db操作的缓存特性。分为一级缓存和二级
         return true;
       }
 ```
+
 可以看出通过吧sql语句通过hashcode做了一序列的运算得到一个key。保证两个不同的sql是不同的key。而保证缓存的唯一性。
 总结：mybatis的一级缓存只是简单的hashmap结构，并且只能在同一个sqlSession生效，他是尽量保证相同一个业务里面避免相同的sql数据库穿透。
-##二级缓存
 
-###设计模式
+## 二级缓存
 
-##引发对工程代码的思考
+### 设计模式
+
+## 引发对工程代码的思考
 
 
