@@ -23,7 +23,7 @@ mybatis的cache部分是做db操作的缓存特性。分为一级缓存和二级
 首先看一级缓存的工作模式
 
 可以看出每个Executor的local cache都是存在同一个sqlSession里面。不同sqlSession下面的cache不能共享。
-    
+``` java
     public abstract class BaseExecutor implements Executor {
     
       private static final Log log = LogFactory.getLog(BaseExecutor.class);
@@ -115,6 +115,7 @@ mybatis的cache部分是做db操作的缓存特性。分为一级缓存和二级
         }
         return true;
       }
+```
 可以看出通过吧sql语句通过hashcode做了一序列的运算得到一个key。保证两个不同的sql是不同的key。而保证缓存的唯一性。
 总结：mybatis的一级缓存只是简单的hashmap结构，并且只能在同一个sqlSession生效，他是尽量保证相同一个业务里面避免相同的sql数据库穿透。
 ##二级缓存
