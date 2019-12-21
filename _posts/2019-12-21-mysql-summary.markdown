@@ -20,28 +20,10 @@ tags:
   
   
 ### 1. mysql执行流程图
-```mermaid
-graph TB
-A[客户端] --> |链接| B(连接器)
-B --> C>查询缓存]
-B --> D[分析器]
-D --> E[优化器]
-E --> F[执行器]
-F -->|引擎接口| G((存储引擎A))
-F -->|引擎接口| H((存储引擎B))
-F -->|引擎接口| I((存储引擎C))
-F -->|引擎接口| J((存储引擎N))
-```
-```mermaid
-sequenceDiagram
-客户端->>连接器: sql查询，权限校验
-连接器->>查询缓存: sql作为key
-查询缓存-->>连接器: 返回缓存结果
-连接器->>分析器: 提交sql，建立分析树
-分析器->>优化器: 语法正确，生成执行计划（索引最优选择）
-优化器->>执行器: 按照执行计划调用引擎接口
-执行器->>存储引擎（innodb等）: 读写接口
-```
+
+![img](/img/in-post/mysql/mysql-summary.png)
+
+![img](/img/in-post/mysql/mysql-flow.png)
 
 >客户端：jdbc，mysql -u -p，等等
  
