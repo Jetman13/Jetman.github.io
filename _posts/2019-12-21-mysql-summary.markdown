@@ -4,7 +4,7 @@ title:      "mysql总体设计图"
 subtitle:   " \"mysql设计图\""
 date:       2019-12-21 12:00:00
 author:     "Jetman"
-header-img: "img/in-post/bg-vim.jpg"
+header-img: "img/in-post/mysql/mysql-one.png"
 catalog: true
 mermaid: true
 tags:
