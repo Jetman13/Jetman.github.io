@@ -6,6 +6,7 @@ date:       2019-12-21 12:00:00
 author:     "Jetman"
 header-img: "img/in-post/bg-vim.jpg"
 catalog: true
+mermaid: true
 tags:
     - mysql
     - 技术
