@@ -45,6 +45,7 @@ kramdown:
   input: GFM                            # use Github Flavored Markdown !important
 
 
+future: true
 
 # Disqus settings
 disqus_username: jetman

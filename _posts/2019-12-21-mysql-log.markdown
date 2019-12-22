@@ -1,7 +1,7 @@
 ---
 layout:     post
-title:      "mysql日志和事务隔离"
-subtitle:   " \"innodb日志和事务隔离\""
+title:      "mysql日志"
+subtitle:   " \"innodb日志\""
 date:       2019-12-21 12:00:00
 author:     "Jetman"
 header-img: "img/in-post/mysql/mysql-two.jpg"
@@ -20,26 +20,3 @@ tags:
 3. redolog：循环写，写到文件尾部又从头开始写，有两个指针write pos是当前写入的位置，checkpoint是当前需要擦除的位置，当redolog的日志刷入磁盘时，checkpoint就需要+1，checkpoint永远不能追上writepos，当赶上时就要暂停等待刷盘。
 4. binlog：追加写，不会循环，会记录sql的每次操作。可以用来同步数据。
 
-####  事务隔离级别
-
-ACID（Atomicity、Consistency、Isolation、Durability，即原子性、一致性、隔离性、持久性）
-##### 隔离性
-1. 读未提交
-> 两个事务，第一个事务读到另外一个事务未提交的修改。
-2. 读已提交
-> 两个事务，第一个事务需要等到第二个事务提交后才能查询到修改。
-3. 可重复读
-> 只要在一个事务中，无论这条记录是否被其他事务更改，在这个事务里面重复读都一样。
-4. 串行化
-> 对于同一条记录，读会加“读锁”，写会加“写锁”当出现读写冲突是，必须串行处理。
-
-##### 视图
-隔离性主要利用一致性读视图。
->    一致性读视图是利用事务id递增作为版本号和undolog做到可见性。
->    例如一个视图的事务id=3，查询数据库里面数据事务id=5，则5的数据对于视图来说不可见，  只能通过undolog回滚。一直回滚到id=3，代表该值才是事务可见性的值。
->    用此方式来实现读已提交和可重复读两种隔离性。
-
-``` sql 
-#查询当前超过60s的长事务
-select * from information_schema.innodb_trx where TIME_TO_SEC(timediff(now(),trx_started))>60
-```
